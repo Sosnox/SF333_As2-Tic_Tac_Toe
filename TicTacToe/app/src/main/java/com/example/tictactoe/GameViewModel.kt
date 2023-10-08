@@ -42,21 +42,61 @@ class GameViewModel : ViewModel() {
         }
     }
 
+//    private fun gameReset() {
+//        boardItems.forEach { (i, _) ->
+//            boardItems[i] = BoardCellValue.NONE
+//        }
+//        val initialTurn = if (state.currentTurn == BoardCellValue.CIRCLE) {
+//            "BOT 'X'"
+//        } else {
+//            "Player 'O'"
+//        }
+//        state = state.copy(
+//            hintText = "$initialTurn Turn!!",
+//            victoryType = VictoryType.NONE,
+//            hasWon = false
+//        )
+//        state = if (state.currentTurn == BoardCellValue.CIRCLE || state.currentTurn == BoardCellValue.NONE) {
+//            state.copy(
+//                hintText = "BOT 'X' Turn!!",
+//                currentTurn = BoardCellValue.CROSS
+//            )
+//        } else {
+//            state.copy(
+//                hintText = "Player 'O' Turn!!",
+//                currentTurn = BoardCellValue.CIRCLE
+//            )
+//        }
+//        if (state.currentTurn == BoardCellValue.CROSS) {
+//            botMove()
+//        }
+//    }
     private fun gameReset() {
         boardItems.forEach { (i, _) ->
             boardItems[i] = BoardCellValue.NONE
         }
-        val initialTurn = if (state.currentTurn == BoardCellValue.CIRCLE) {
-            "BOT 'X'"
+
+        // สลับคนเริ่ม
+        val newTurn = if (state.lastStarter == BoardCellValue.CROSS || state.lastStarter == BoardCellValue.NONE) {
+            BoardCellValue.CIRCLE
         } else {
-            "Player 'O'"
+            BoardCellValue.CROSS
         }
+
+        val initialTurn = if (newTurn == BoardCellValue.CIRCLE) {
+            "Player 'O'"
+        } else {
+            "BOT 'X'"
+        }
+
         state = state.copy(
-            hintText = "$initialTurn turn",
-            currentTurn = if (state.currentTurn == BoardCellValue.CIRCLE) BoardCellValue.CROSS else BoardCellValue.CIRCLE,
+            hintText = "$initialTurn Turn!!",
+            currentTurn = newTurn,
+            lastStarter = newTurn,
             victoryType = VictoryType.NONE,
             hasWon = false
         )
+
         if (state.currentTurn == BoardCellValue.CROSS) {
             botMove()
         }
