@@ -75,7 +75,6 @@ class GameViewModel : ViewModel() {
         boardItems.forEach { (i, _) ->
             boardItems[i] = BoardCellValue.NONE
         }
-
         // สลับคนเริ่ม
         val newTurn = if (state.lastStarter == BoardCellValue.CROSS || state.lastStarter == BoardCellValue.NONE) {
             BoardCellValue.CIRCLE
